@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import AddEntryForm from './Component/AddEntryForm';
-import EntryList from './Component/EntryList';
+import Home from './Component/Home';
+// import EntryList from './Component/EntryList';
 
 ;
 // import EntryEdit from './Component/UpdaEntryForm';
@@ -11,7 +11,7 @@ function App() {
 
   return (
     <>
-      <AddEntryForm />
+      <Home />
       {/* <DeleteEntryButton /> */}
       {/* <EntryList /> */}
       {/* <SingleEntry /> */}

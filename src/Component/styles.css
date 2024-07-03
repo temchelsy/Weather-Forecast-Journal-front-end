@@ -71,6 +71,13 @@
     background-color: #ff6347;
     color: #fff;
   }
+
+  .list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 50%;
+  }
   
   
   @media screen and (max-width: 600px) {
@@ -78,3 +85,5 @@
       padding: 1rem;
     }
   }
+
+ 

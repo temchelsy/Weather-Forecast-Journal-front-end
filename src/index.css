@@ -12,6 +12,9 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* .entry-form {
@@ -61,34 +64,88 @@ button {
 }
 
 
-
-/* Entry list styles */
-ul {
-  list-style: none;
+.list {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  padding: 0;
+  margin: 0;
+  size: 100%;
+  
 }
 
-li {
-  padding: 0.5rem;
-  border-bottom: 1px solid #ddd;
-}
-
-/* Single entry styles */
-.single-entry {
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-}
-
-/* Delete button styles */
-.delete-button {
-  background-color: #ff6347;
-  color: #fff;
-}
 
 /* Responsive styles (optional) */
 @media screen and (max-width: 600px) {
   .container {
     padding: 1rem;
   }
+}
+
+.results {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  color: rgb(14, 8, 1);
+  background-color: rgb(245, 244, 247);
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4rem;
+}
+
+button {
+  background-color: rgb(7, 31, 56);
+  color: aliceblue;
+  width: 8vw;
+  height: 5vh;
+  padding: 5px;
+  border-radius: 5px;
+  outline: none;
+  border-color: black;
+}
+
+h1 {
+  display: flex;
+  text-align: left;
+  justify-content: left;
+  /* width: 30vw; */
+  color: rgb(5, 5, 37);
+  height: 7vh;
+}
+
+.main-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+ 
+ 
+  gap: 1rem;
+  height: 75vh;
+  width: 35vw;
+  border-radius: 10px;
+  
+}
+
+.dat {
+  width: 30vw;
+  height: 5vh;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 20px;
+  outline: none;
+  background-color: rgb(223, 218, 212);
+}
+
+.desc {
+  width: 20vw;
+  height: 10vh;
+  outline: none;
+  font-size: 20px;
+  border-radius: 5px;
 }
