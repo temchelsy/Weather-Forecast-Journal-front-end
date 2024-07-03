@@ -7,55 +7,56 @@ function Home() {
     const [description, setDescription] = useState('');
     const [error, setError] = useState(null);
 
-    const addEntry = async () => {
-        if (date && description) {
-            try {
-                const position = await getCurrentPosition();
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-    
-                const { weather, temperature } = await fetchWeatherData(latitude, longitude);
-    
-                const response = await fetch('http://localhost:4000/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        date,
-                        description,
-                        weather,
-                        temperature,
-                        latitude,
-                        longitude
-                    })
-                });
-    
-                if (!response.ok) {
-                    throw new Error(`Failed to add entry. Server returned ${response.status}.`);
-                }
-    
-                const data = await response.json();
-                setEntries([...entries, data]);
-                setError(null);
-            } catch (error) {
-                console.error('Error adding entry:', error);
-                setError('Please enable geolocation to add an entry.');
+  const addEntry = async () => {
+    if (date && description) {
+        try {
+            const position = await getCurrentPosition();
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            const { weather, temperature } = await fetchWeatherData(latitude, longitude);
+
+            const response = await fetch('http://localhost:4000/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    date,
+                    description,
+                    weather,
+                    temperature,
+                    latitude,
+                    longitude
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to add entry. Server returned ${response.status}.`);
             }
-        } else {
-            setError('Date and description are required.');
+
+            const data = await response.json();
+            setEntries([...entries, data]);
+            setError(null);
+        } catch (error) {
+            console.error('Error adding entry:', error);
+            setError('Please enable geolocation to add an entry.');
         }
-    };
+    } else {
+        setError('Date and description are required.');
+    }
+};
+
     
 
-    const getCurrentPosition = () => {
+     const getCurrentPosition = () => {
         return new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, reject);
         });
     };
 
     const fetchWeatherData = async (latitude, longitude) => {
-        const apiKey = 'a5610615f19df1a38796c5716ede76e5'; 
+        const apiKey = 'a5610615f19df1a38796c5716ede76e5';
         const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
         try {
@@ -130,8 +131,8 @@ function Home() {
                     <div key={entry.id} className='result'>
                         <p>Date: {entry.date}</p>
                         <p>Description: {entry.description}</p>
-                        <p>Weather: {entry.weather}</p>
-                        <p>Temperature: {entry.temperature} °C</p>
+                        <p>Temperature {entry.weather}</p>
+                        <p>Weather: {entry.temperature} °C</p>
                         <button onClick={() => deleteEntry(entry.id)}>Delete</button>
                         <button onClick={() => updateEntry(entry.id, { /* Updated data */ })}>Update</button>
                     </div>
