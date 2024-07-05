@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../utils/constant';
 
 function Home() {
     const [entries, setEntries] = useState([]);
@@ -7,47 +8,45 @@ function Home() {
     const [description, setDescription] = useState('');
     const [error, setError] = useState(null);
 
-  const addEntry = async () => {
-    if (date && description) {
-        try {
-            const position = await getCurrentPosition();
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-
-            const { weather, temperature } = await fetchWeatherData(latitude, longitude);
-
-            const response = await fetch('http://localhost:4000/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    date,
-                    description,
-                    weather,
-                    temperature,
-                    latitude,
-                    longitude
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error(`Failed to add entry. Server returned ${response.status}.`);
-            }
-
-            const data = await response.json();
-            setEntries([...entries, data]);
-            setError(null);
-        } catch (error) {
-            console.error('Error adding entry:', error);
-            setError('Please enable geolocation to add an entry.');
-        }
-    } else {
-        setError('Date and description are required.');
-    }
-};
-
+    const addEntry = async () => {
+        if (date && description) {
+            try {
+                const position = await getCurrentPosition();
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
     
+                const { weather, temperature } = await fetchWeatherData(latitude, longitude);
+    
+                const response = await fetch(`${API_BASE_URL}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        date,
+                        description,
+                        weather,
+                        temperature,
+                        latitude,
+                        longitude
+                    })
+                });
+    
+                if (!response.ok) {
+                    throw new Error(`Failed to add entry. Server returned ${response.status}.`);
+                }
+    
+                const data = await response.json();
+                setEntries([...entries, data]);
+                setError(null);
+            } catch (error) {
+                console.error('Error adding entry:', error);
+                setError('Please enable geolocation to add an entry.');
+            }
+        } else {
+            setError('Date and description are required.');
+        }
+    };
 
      const getCurrentPosition = () => {
         return new Promise((resolve, reject) => {
@@ -72,7 +71,7 @@ function Home() {
 
     const updateEntry = async (id, newData) => {
         try {
-            const response = await axios.put(`http://localhost:4000/${id}`, newData);
+            const response = await axios.put(`https://jounal-api-1.onrender.com${id}`, newData);
             setEntries(entries.map(entry => (entry.id === id ? response.data : entry)));
             setError(null);
         } catch (error) {
@@ -83,7 +82,7 @@ function Home() {
 
     const deleteEntry = async (id) => {
         try {
-            await axios.delete(`http://localhost:4000/${id}`);
+            await axios.delete(`${API_BASE_URL}/${id}`);
             setEntries(entries.filter(entry => entry.id !== id));
             setError(null);
         } catch (error) {
@@ -94,7 +93,7 @@ function Home() {
 
     const fetchAllEntries = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/');
+            const response = await axios.get(`${API_BASE_URL}/`);
             setEntries(response.data);
             setError(null);
         } catch (error) {
